@@ -3,38 +3,47 @@ import FadeIn from "./FadeIn";
 const outdoorProducts = [
   {
     name: "Terrassmarkis",
-    description: "Perfekt för altan och balkong. Måttbeställd och anpassad efter dina önskemål med olika vävar och färger.",
+    description:
+      "Perfekt för altan och balkong. Måttbeställd och anpassad efter dina önskemål med olika vävar och färger från Sandatex.",
   },
   {
     name: "Fönstermarkis",
-    description: "Klassiska och vertikalmarkiser som ger ett effektivt skydd mot sol och värme.",
+    description: "Klassiskt solskydd som ger ett effektivt skydd mot sol och värme.",
   },
   {
-    name: "Sidomarkis",
-    description: "Flexibelt vindskydd som enkelt kan dras ut vid behov.",
-  }
+    name: "Zip-screen / vertikalmarkis",
+    description:
+      "Zip-screen är ett modernt utvändigt solskydd där väven låses i sidokanaler med zip-funktion, vilket ger hög vindstabilitet och effektiv solavskärmning.",
+  },
 ];
 
 const indoorProducts = [
   {
     name: "Rullgardin",
-    description: "Klassiskt och stilrent solskydd som passar alla rum.",
+    description: "Klassiskt och stilrent solskydd som passar de flesta rum.",
   },
   {
     name: "Plisségardin",
-    description: "Elegant och platssnål gardin med unik veckning.",
+    description: "Elegant veckgardin med smidigt reglage.",
   },
   {
     name: "Persienn",
-    description: "Tidlös design med exakt ljusreglering.",
+    description:
+      "Tidlös, enkel och effektiv design som passar de flesta rum och ger flexibel ljusreglering.",
   },
   {
     name: "Lamellgardin",
     description: "Perfekt för stora fönsterytor med enkel manövrering.",
-  }
+  },
 ];
 
-const ProductItem = ({ name, description }: { name: string; description: string }) => (
+const ProductItem = ({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}) => (
   <div className="group py-4 border-b border-border/50 last:border-b-0 hover:bg-primary/5 transition-colors px-4 -mx-4 rounded-lg">
     <div className="flex items-start gap-4">
       <span className="w-2 h-2 rounded-full bg-primary mt-3 flex-shrink-0" />
@@ -59,7 +68,7 @@ const Products = () => {
             <h2 className="section-heading mb-4">Våra produkter</h2>
             <div className="accent-line mx-auto mb-6" />
             <p className="section-subheading mx-auto">
-              Kvalitetslösningar för både inomhus- och utomhusbruk
+              Kvalitetslösningar för både inomhus och utomhusbruk
             </p>
           </div>
         </FadeIn>
