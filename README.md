@@ -1,5 +1,7 @@
 # Solcirkeln hemsida
 
+Deploy-trigg: Uppdaterad 2026-02-22
+
 ## Kom igång
 
 1. Klona repot:
