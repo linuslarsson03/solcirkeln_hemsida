@@ -12,7 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "deploy": "npm run build && npm run postbuild && npx gh-pages -d dist",
-    "postbuild": "copy dist\\index.html dist\\404.html"
+    "postbuild": "cp dist/index.html dist/404.html"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
