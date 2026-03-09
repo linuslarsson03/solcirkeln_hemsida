@@ -19,6 +19,10 @@ const ContactForm = () => {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [otherProduct, setOtherProduct] = useState("");
   const [consent, setConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || "kontakt.solcirkeln@gmail.com";
+  const submitEndpoint =
+    import.meta.env.VITE_CONTACT_FORM_ENDPOINT || `https://formsubmit.co/ajax/${contactEmail}`;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -37,7 +41,7 @@ const ContactForm = () => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!consent) {
@@ -51,32 +55,58 @@ const ContactForm = () => {
 
     const allProducts = [...selectedProducts, otherProduct].filter(Boolean).join(", ");
 
-    const mailtoLink = `mailto:kontakt.solcirkeln@gmail.com?subject=Offertförfrågan från ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(
-`Offertförfrågan från Solcirkelns hemsida
+    try {
+      setIsSubmitting(true);
 
-KONTAKTINFORMATION
-Namn: ${formData.name}
-E-post: ${formData.email}
-Telefon: ${formData.phone}
+      const response = await fetch(submitEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: `Offertförfrågan från ${formData.name}`,
+          namn: formData.name,
+          epost: formData.email,
+          telefon: formData.phone,
+          gatuadress: formData.street,
+          postnummer: formData.postalCode,
+          ort: formData.city,
+          produkter: allProducts || "Ej angivet",
+          meddelande: formData.message || "Ej angivet",
+        }),
+      });
 
-ADRESS
-${formData.street}
-${formData.postalCode} ${formData.city}
+      if (!response.ok) {
+        throw new Error("Kunde inte skicka formularet");
+      }
 
-INTRESSERAD AV
-${allProducts || "Ej angivet"}
+      toast({
+        title: "Förfrågan skickad!",
+        description: "Vi återkommer så snart som möjligt.",
+      });
 
-BESKRIVNING
-${formData.message}
-`
-    )}`;
-
-    window.location.href = mailtoLink;
-
-    toast({
-      title: "Förfrågan skickad!",
-      description: "Vi återkommer så snart som möjligt.",
-    });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        street: "",
+        postalCode: "",
+        city: "",
+        message: "",
+      });
+      setSelectedProducts([]);
+      setOtherProduct("");
+      setConsent(false);
+    } catch {
+      toast({
+        title: "Något gick fel",
+        description: "Formuläret kunde inte skickas. Försök igen eller ring oss direkt.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -126,9 +156,9 @@ ${formData.message}
                   </div>
                   <div>
                     <h4 className="font-medium mb-1">E-post</h4>
-                    <a href="mailto:kontakt.solcirkeln@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+                    <span className="text-muted-foreground">
                       kontakt.solcirkeln@gmail.com
-                    </a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -263,9 +293,10 @@ ${formData.message}
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full bg-primary text-primary-foreground py-4 rounded-full font-medium hover:bg-primary/90 transition-all hover:scale-[1.02]"
                 >
-                  Skicka offertförfrågan
+                  {isSubmitting ? "Skickar..." : "Skicka offertförfrågan"}
                 </button>
 
                 <p className="text-muted-foreground text-sm text-center mt-4">

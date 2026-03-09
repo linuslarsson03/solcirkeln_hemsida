@@ -22,6 +22,19 @@ Deploy-trigg: Uppdaterad 2026-02-22
 
 Push till main så deployas automatiskt till GitHub Pages.
 
+## Kontaktformular (e-post)
+
+Formularet skickar data via FormSubmit API (inte `mailto`).
+
+1. Skapa `.env` i projektroten (du kan kopiera `.env.example`).
+2. Ange mottagaradress:
+	```sh
+	VITE_CONTACT_EMAIL=kontakt.solcirkeln@gmail.com
+	VITE_CONTACT_FORM_ENDPOINT=https://formsubmit.co/ajax/kontakt.solcirkeln@gmail.com
+	```
+3. Skicka ett test via formularet. Forsta gangen kan FormSubmit skicka ett aktiveringsmail till adressen som maste godkannas.
+4. Efter aktivering skickas alla nya formularsvar till den angivna e-postadressen.
+
 - Navigate to the desired file(s).
 - Click the "Edit" button (pencil icon) at the top right of the file view.
 - Make your changes and commit the changes.
